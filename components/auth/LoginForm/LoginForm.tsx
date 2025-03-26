@@ -1,15 +1,12 @@
 "use client"
-
 import React from 'react'
 import Link from 'next/link'
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import Aside from '@/components/common/aside';
+import Aside from '@/components/reusable/aside';
 import { useState } from "react"
 import { FaRegEye } from "react-icons/fa";
 import { IoMdEyeOff } from "react-icons/io";
-
-
 const LoginForm = () => {
     const[isVisible, setIsVisible] =useState(false)
     
