@@ -3,15 +3,13 @@ import React from 'react'
 import Image, { StaticImageData } from 'next/image';
 import images from '../../../../../constants/Images';
 import { FaShoppingCart } from "react-icons/fa";
-
+import Link from 'next/link';
 interface FlowerItems {
   image:StaticImageData;
   title:string;
   price:string;
-
 }
 const FeaturedList = () => {
-
     const flower:FlowerItems[] = [
         {
           image: images.flower.flower,
@@ -51,7 +49,7 @@ const FeaturedList = () => {
         },
       ]
   return (
-   <div className='flex flex-col w-full justify-around relative gap-10'>
+   <div className='flex flex-col w-full justify-around relative gap-10 bg-red-100 border-b-1 border-red-500'>
           <div className='text-center'>
                 <h1 className='text-3xl md:text-5xl font-bold cormorant '>Discover Our Exquisite Handmade Flowers</h1>
                 <p className='font-bold text-lg md:text-2xl cormorant'>Timeless beauty, handcrafted to perfection—our exquisite handmade flowers bring elegance that lasts forever.</p>
@@ -68,10 +66,13 @@ const FeaturedList = () => {
                 </div>
                   <div className='text-center'>
                     <h2 className='text-xl md:text-3xl mb-2 cormorant font-bold'>{item.title}</h2>
-                    <p className='text-gray-600 text-sm md:text-2xl'>Price:{item.price}</p>
+                    <p className='text-gray-600'> <span className=' text-sm md:text-xl font-bold'> Price:</span> <span className='text-xs md:text-lg'>{item.price}</span> </p>
                   </div>
                 </div>
               ))}
+            </div>
+            <div className='text-center mb-3 md:mb-12'>
+              <Link href={""} className='text-xs md:text-lg capitalize py-2 md:py-4 px-6 md:px-8 rounded-sm bg-[#EA454C] hover:bg-red-400 text-white'>buy now</Link>
             </div>
         </div>
           

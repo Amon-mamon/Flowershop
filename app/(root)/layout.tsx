@@ -1,6 +1,6 @@
 "use client"
 import Footer from '@/components/common/Footer/Footer'
-import NavBar from '@/components/common/Navbar/NavBar'
+// import NavBar from '@/components/common/Navbar/NavBar'
 import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
 
@@ -10,9 +10,9 @@ const Layout = ({children}: {children: ReactNode}) => {
     const isAuthRoute = authParams.includes(pathname)
   return (
    <>
-   {
+   {/* {
     !isAuthRoute &&  <NavBar/>
-   }
+   } */}
   
     <main>{children}</main>
     {

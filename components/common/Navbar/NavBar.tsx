@@ -21,7 +21,6 @@ const NavBar = () => {
     window.addEventListener("scroll",handleScroll);
     return () => window.removeEventListener("scroll", handleScroll)
    },[])
-
   return (
     <nav className={`w-full fixed top-0 left-0 z-20 ${scrolling ? "bg-[#EA454C]/100" : "bg-[#EA454C]/0"} transition-all`}>
        <div className='w-full flex justify-between py-3 px-4 md:px-8 items-center relative'>
