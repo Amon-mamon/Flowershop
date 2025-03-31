@@ -4,7 +4,7 @@ import Image from 'next/image'
 import images from '@/constants/Images'
 const About = () => {
   return (
-    <div className='px-12'>
+    <div id='about' className='px-12'>
         <div className='md:flex px-4 gap-x-4 my-24 items-end'>
             <div className='flex items-end gap-x-4 w-full md:w-1/2 mb-3'>
                 <div className='hidden lg:block'>

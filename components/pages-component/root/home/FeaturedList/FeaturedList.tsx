@@ -49,9 +49,10 @@ const FeaturedList = () => {
         },
       ]
   return (
-   <div className='flex flex-col w-full justify-around relative gap-10 bg-red-100 border-b-1 border-red-500'>
+   <div id='featured' className='flex flex-col w-full justify-around relative gap-10 bg-red-100 border-b-1 border-red-500'>
+              <p className='text-center text-6xl font-bold cormorant text-red-400'>Featured Product</p>
           <div className='text-center'>
-                <h1 className='text-3xl md:text-5xl font-bold cormorant '>Discover Our Exquisite Handmade Flowers</h1>
+                <p className='text-3xl md:text-5xl font-bold cormorant '>Discover Our Exquisite Handmade Flowers</p>
                 <p className='font-bold text-lg md:text-2xl cormorant'>Timeless beauty, handcrafted to perfection—our exquisite handmade flowers bring elegance that lasts forever.</p>
             </div>
             <div className='justify-center flex flex-wrap gap-4'>
