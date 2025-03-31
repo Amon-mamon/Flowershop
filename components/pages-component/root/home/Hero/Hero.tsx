@@ -4,7 +4,7 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    <section className='relative w-full h-screen flex justify-center items-center bg-[url(/assets/images/flowersbg.jpg)] bg-no-repeat bg-cover'>
+    <section id='home' className='relative w-full h-screen flex justify-center items-center bg-[url(/assets/images/flowersbg.jpg)] bg-no-repeat bg-cover'>
         <div className='absolute top-0 left-0 w-full h-full bg-black/80'>
         </div>
         <div className='text-center w-[800px] z-10 mt-16 md:my-auto px-8'>
