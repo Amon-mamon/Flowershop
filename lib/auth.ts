@@ -1,18 +1,9 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions, Session, User } from "next-auth"
+import { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "./prisma";
 import { compare } from "bcrypt"
-import { JWT } from "next-auth/jwt";
-interface JWTCallbackParams {
-    token: JWT;
-    user?: User;
-}
-
-interface SessionCallbackParams {
-    session: Session;
-    token: JWT;
-}
+import { JWTCallbackParams, SessionCallbackParams } from "@/types/types";
 
 
 export const authOptions: NextAuthOptions = {
