@@ -27,7 +27,6 @@ const schema = z
     message: "Passwords do not match.",
     path: ["confirmPassword"],
   });
-
 const RegisterForm = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);

@@ -46,7 +46,7 @@ const LoginForm = () => {
             console.log("loginerror:",loginData?.error)
             return;
         }else {
-            router.push('/dashboard')
+            router.push("/")
         }
     }
      
