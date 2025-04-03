@@ -7,8 +7,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import TogglePassword from "@/components/reusable/TogglePassword";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-// Validation Schema
 const schema = z
   .object({
     // firstName: z.string().min(8, "First name must be at least 8 characters."),
@@ -30,6 +30,7 @@ const schema = z
 const RegisterForm = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(false)
   const {
     register,
     handleSubmit, 
@@ -45,6 +46,7 @@ const RegisterForm = () => {
   });
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
+    setLoading(true)
     const response = await fetch('/api/user',{
       method: 'POST',
       headers: {
@@ -60,10 +62,11 @@ const RegisterForm = () => {
     
     if(response.ok){
         router.push('/auth/login')
-        console.log("Registered Successfully")
+        toast.success("Registered Successfully")
     } else{
       const errorData = await response.json()
-      console.error('Registration Failed',errorData.message)
+      toast.error(errorData.message)
+      setLoading(false)
     }
 
   };
@@ -172,7 +175,8 @@ const RegisterForm = () => {
             type="submit"
             className="flex p-4 border w-3/4 rounded-md bg-[#EA454C] hover:bg-red-400 text-white cursor-pointer justify-center"
           >
-            Register
+            {loading ? "Registering.." : "Register"}
+            
           </button>
           <p>
             Already have an account?{" "}

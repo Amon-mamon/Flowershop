@@ -1,29 +1,28 @@
 "use client"
 import React from 'react'
 import Link from 'next/link'
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
 import Aside from '@/components/reusable/aside';
 import { useState } from "react"
-import { FaRegEye } from "react-icons/fa";
-import { IoMdEyeOff } from "react-icons/io";
 import { z } from "zod";
 import { signIn } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import icons from '@/constants/icons';
+import { toast } from 'react-toastify';
+
 const schema = z
   .object({
     email: z.string().email("Invalid email format."),
     password: z
       .string()
       .min(1, 'Password is Required')
-      .min(8, "Password must be at least 8 characters.")
   })
  
 const LoginForm = () => {
     const router = useRouter()
     const[isVisible, setIsVisible] =useState(false)
+    const [loading, setLoading] = useState(false)
     const {
         register,
         handleSubmit, 
@@ -37,16 +36,21 @@ const LoginForm = () => {
       });
 
     const onSubmit = async (data: z.infer<typeof schema>) => {
+        setLoading(true)
         const loginData = await signIn('credentials',{
             email:data.email,
             password:data.password,
             redirect:false,
         });
+
+      
         if(loginData?.error){
-            console.log("loginerror:",loginData?.error)
+            toast.error(loginData.error)
+            setLoading(false)
             return;
         }else {
             router.push("/")
+            toast.success("Login Successfully")
         }
     }
      
@@ -66,11 +70,11 @@ const LoginForm = () => {
             <div className='flex flex-col gap-1 relative  w-full'>
                 <label htmlFor="">Password</label>
                 <input {...register("password")}type={isVisible ? "text" : "password"} placeholder='********' className='p-4 border border-gray-400 rounded-lg  '  required/>
-                <button onClick={()=> setIsVisible(!isVisible)}>
+                <button type='button' onClick={()=> setIsVisible(!isVisible)}>
                     
                     { isVisible ? 
-                            <FaRegEye className='cursor-pointer text-2xl absolute right-3 top-11' />
-                        : <IoMdEyeOff className='cursor-pointer text-2xl absolute right-3 top-11' />
+                            <icons.FaRegEye className='cursor-pointer text-2xl absolute right-3 top-11' />
+                        : <icons.IoMdEyeOff className='cursor-pointer text-2xl absolute right-3 top-11' />
                         }
                     </button>                
             </div>
@@ -85,13 +89,13 @@ const LoginForm = () => {
                 </div>
             </div>
             <div className='flex flex-col justify-center items-center w-full gap-2'>
-                <button type='submit' className=' bg-[#EA454C] w-full text-center py-3 text-white rounded-xl cursor-pointer'>Sign in</button>
+                <button type='submit' className=' bg-[#EA454C] w-full text-center py-3 text-white rounded-xl cursor-pointer'>{loading  ? "Signing in..." :"Sign in"}</button>
                 <button className='flex w-full py-3 rounded-xl justify-center items-center border border-gray-400 gap-2 cursor-pointer'>
-                        <FcGoogle />
+                        <icons.FcGoogle/>
                         <Link href ="" className=''>Sign in with Google</Link>
                 </button>
                 <button className='flex w-full py-3 rounded-xl justify-center items-center bg-black gap-3 cursor-pointer'>
-                        <FaGithub className='text-white' />
+                        <icons.FaGithub className='text-white' />
                         <Link href ="https://github.com/" className='text-white'>Sign in with Github</Link>
                 </button>
             </div>

@@ -23,7 +23,15 @@
 }
 html{
   scroll-behavior: smooth;
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+ 
 }
+.pointer {
+  pointer-events: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -38,3 +46,4 @@ input[type=password]::-ms-clear
 {
     display: none;
 }
+

@@ -4,6 +4,7 @@ import NavBar from '@/components/common/Navbar/NavBar'
 import { SessionProvider } from 'next-auth/react'
 import { usePathname } from 'next/navigation'
 import React, { ReactNode } from 'react'
+import { ToastContainer } from 'react-toastify'
 
 const authParams = ["/auth/login", "/auth/register"]
 const Layout = ({children}: {children: ReactNode}) => {
@@ -13,10 +14,11 @@ const Layout = ({children}: {children: ReactNode}) => {
    <>
     <SessionProvider>
    {
-    !isAuthRoute &&  <NavBar/>
+     !isAuthRoute &&  <NavBar/>
    }
     <main>
-      {children}
+        {children}
+      <ToastContainer position='top-right'/>
       </main>
     {
     !isAuthRoute &&  <Footer/>
