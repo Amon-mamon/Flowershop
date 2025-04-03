@@ -17,6 +17,25 @@ const schema = z
       .regex(/[\W_]/, "Password must contain at least one special character."),
     confirmPassword: z.string().min(8,'Password confirmation is required'),
   })
+  export async function GET() {
+    try {
+      const users = await prisma.user.findMany({
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          createdAt: true,
+        },
+      });
+      return NextResponse.json(users, { status: 200 });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      return NextResponse.json(
+        { message: "Something went wrong" },
+        { status: 500 }
+      );
+    }
+  }
  
 export async function POST (req: Request) {
     try {
@@ -48,7 +67,7 @@ export async function POST (req: Request) {
         const { password: newUserPassword } =newUser;
             return NextResponse .json({user:newUserPassword, message: "created successfully"}, {status: 201})
     }catch(error) {
-        console.error("Error:", error); // Log the actual error
+        console.error("Error:", error); 
         return NextResponse .json({message: "Something went wrong"}, {status: 500})
     }
 }

@@ -1,11 +1,11 @@
 "use client"
 import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react'
-import { LuShoppingCart } from "react-icons/lu";
 import { GiFlowers } from "react-icons/gi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { IoCloseSharp } from "react-icons/io5";
 import { signOut, useSession } from "next-auth/react";
+import icons from '@/constants/icons';
 
 
 
@@ -55,9 +55,9 @@ const NavBar =  () => {
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
                     <h1 className={`${scrolling ? "text-white text-3xl lg:text-5xl font-bold cormorant": " cormorant font-bold text-3xl lg:text-5xl text-red-400"} `}>JVB</h1>
             </div>
-            <ul className={`w-full justify-end gap-6 lg:gap-10  ${!toggleMenu ? "hidden md:flex" :"absolute top-18 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
+            <ul className={`w-full justify-end gap-6 lg:gap-10  ${!toggleMenu ? "hidden md:flex" :"absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
                 {links.map((item,index)=>(
-                    <li  key={index}  className={` cursor-pointer text-white text-md lg:text-lg capitalize`}>
+                    <li key={index}  className={` cursor-pointer text-white text-md lg:text-lg capitalize`}>
                         <Link href={""} className={`${scrolling ? "text-white" : "text-white"}`}>{item}</Link>
                     </li>
                 ))}
@@ -73,7 +73,7 @@ const NavBar =  () => {
                 session ? (
                     <div className='flex items-center gap-2'>
                         <div className={` transition-all ${scrolling ? "bg-white  p-1 md:p-2 rounded-3xl hover:bg-gray-300 cursor-pointer text-gray-500 hover:text-gray-700" :" bg-red-400 rounded-3xl p-1 md:p-2 text-white hover:bg-gray-400 hover:text-white cursor-pointer"}`}>
-                            <LuShoppingCart className='text-lg md:text-xl'/>
+                            <icons.LuShoppingCart className='text-lg md:text-xl'/>
                         </div>
                         <div ref={dropdownRef}>
                             <div

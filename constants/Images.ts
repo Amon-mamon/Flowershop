@@ -5,7 +5,6 @@ import girl from "../public/assets/images/about-girl.png"
 const images = {
     aside:{aside},
     flower:{flower},
-    girl : {girl}
-
+    girl : {girl},
 }
 export default images 

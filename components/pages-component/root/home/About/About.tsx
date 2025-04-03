@@ -8,10 +8,10 @@ const About = () => {
         <div className='md:flex px-4 gap-x-4 my-24 items-end'>
             <div className='flex items-end gap-x-4 w-full md:w-1/2 mb-3'>
                 <div className='hidden lg:block'>
-                    <Image width={200} height={200} src={images.girl.girl} alt='' className='rounded-t-full '></Image>
+                    <Image width={200} height={200} src={images.girl.girl} alt='' className='pointer rounded-t-full '></Image>
                 </div>
                 <div>
-                    <Image width={400} height={400} src={images.girl.girl} alt='' className='rounded-t-[100%]'></Image>
+                    <Image width={400} height={400} src={images.girl.girl} alt='' className='pointer rounded-t-[100%]'></Image>
                 </div>
             </div>
             <div className='w-full md:w-1/2 flex flex-col gap-6 md:gap-12 text-left justify-center '>

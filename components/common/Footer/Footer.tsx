@@ -43,7 +43,7 @@ const Footer = () => {
                 <h3 className='text-xl font-bold mb-3'>Contact Us</h3>
                 <ul>
                     <li>Address: Xevera</li>
-                    <li>Email:<Link href={""} >contact@info.com</Link></li>
+                    <li>Email:<Link href={""} className='text-blue-500 hover:text-blue-950 transition-all'>contact@info.com</Link></li>
                     <li>Phone:+639212477004</li>
                 </ul>
             </div>
