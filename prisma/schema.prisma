@@ -1,25 +1,35 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
- 
 model User {
-  id   String @id @default(uuid())
-  email String @unique
-  username String @unique
-  password String
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
   createdAt DateTime @default(now())
-  updateAt DateTime @default(now())
+  updateAt  DateTime @default(now())
+  username  String   @unique
+}
+
+model UserVerification {
+  id String @id @default(uuid())
+  email String
+  otp String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+
+model flower {
+  id    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title String?
+  price Decimal? @db.Decimal
+  image String?
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import images from '../../constants/Images'
+import images from '../../../constants/Images'
 const Aside = () => {
   return (
     <div className=' w-full justify-end hidden lg:block'>

@@ -12,23 +12,22 @@ import icons from '@/constants/icons';
 const NavBar =  () => {
     const {data:session, status} = useSession()
     const [scrolling, setScrolling] = useState(false)
-    const links = ["home","about","shop", "contact",]
     const [toggleMenu, settoggleMenu] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-          if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
             setIsOpen(false);
-          }
+            }
         };
-    
+
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, []);
+        }, []);
       
    useEffect (() =>{
     const handleScroll = () => {
@@ -49,18 +48,21 @@ const NavBar =  () => {
     return () => window.removeEventListener("resize", handleResize);
 }, []);
   return (
-    <nav className={`w-full fixed top-0 left-0 z-20 ${scrolling ? "bg-[#EA454C]/100" : "bg-[#EA454C]/0"} transition-all`}>
+    <nav className={`w-full sticky top-0 left-0 z-20  ${scrolling ? "bg-[#EA454C]/100" : "bg-[#EA454C]/20"} transition-all`}>
        <div className='w-full flex justify-between py-3 px-4 md:px-8 items-center relative'>
             <div className='flex items-center gap-1 cursor-pointer'>
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
                     <h1 className={`${scrolling ? "text-white text-3xl lg:text-5xl font-bold cormorant": " cormorant font-bold text-3xl lg:text-5xl text-red-400"} `}>JVB</h1>
             </div>
             <ul className={`w-full justify-end gap-6 lg:gap-10  ${!toggleMenu ? "hidden md:flex" :"absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
-                {links.map((item,index)=>(
-                    <li key={index}  className={` cursor-pointer text-white text-md lg:text-lg capitalize`}>
-                        <Link href={""} className={`${scrolling ? "text-white" : "text-white"}`}>{item}</Link>
-                    </li>
-                ))}
+                    <ul className=''>
+                        <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex gap-12` }>
+                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Home</Link>
+                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>About</Link>
+                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Shop</Link>
+                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Contact</Link>
+                        </li>
+                    </ul>
                 {session && toggleMenu ?  (
                     <button onClick={() => signOut()} className='text-white  cursor-pointer'>
                         Logout
@@ -88,7 +90,6 @@ const NavBar =  () => {
                             </div>
                         </div>
                     </div>
-                      
                 ) : <div className='gap-1 hidden md:flex'>
                         <Link href="/auth/login" className='text-[#EA454C] hover:text-white hover:bg-red-400 transition-all   bg-white py-2 rounded-md px-3'>Sign in</Link>
                         <Link href="/auth/register" className='hover:text-[#EA454C] hover:bg-white text-white bg-red-400 transition-all    py-2 rounded-md px-3'>Sign up</Link>

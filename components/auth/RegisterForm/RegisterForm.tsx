@@ -1,19 +1,18 @@
 "use client";
-import Aside from "../../reusable/aside";
+import Aside from "../../reusable/sidecontent/aside";
 import Link from "next/link";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import TogglePassword from "@/components/reusable/TogglePassword";
+import TogglePassword from "@/components/reusable/togglepassword/TogglePassword";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import SendCode from "./modal/SendCode";
 
 const schema = z
   .object({
-    // firstName: z.string().min(8, "First name must be at least 8 characters."),
-    // lastName: z.string().min(8, "Last name must be at least 8 characters."),
-    username: z.string().min(8,"Username must be at least 8 characters").max(100),
+    username: z.string().min(1, "Username is required").max(100),
     email: z.string().email("Invalid email format."),
     password: z
       .string()
@@ -21,89 +20,103 @@ const schema = z
       .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
       .regex(/\d/, "Password must contain at least one number.")
       .regex(/[\W_]/, "Password must contain at least one special character."),
-    confirmPassword: z.string().min(8,'Password confirmation is required'),
+    confirmPassword: z.string().min(8, "Password confirmation is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match.",
     path: ["confirmPassword"],
   });
+
 const RegisterForm = () => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [openVerification, setOpenVerification] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+
   const {
     register,
-    handleSubmit, 
+    handleSubmit,
     formState: { errors },
   } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues:{
-      username:'',
-      email:'',
-      password:'',
-      confirmPassword:''
-    }
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
+  // Function to handle OTP sending request
+  const handleSendOtp = async () => {
+    if (!email) {
+      toast.error("Please enter an email first.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/auth/sendotp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        toast.success(result.message || "OTP sent to email.");
+        setOpenVerification(true); // Open the modal after OTP is sent
+      } else {
+        toast.error(result.message || "Failed to send OTP.");
+      }
+    } catch (error) {
+      console.error("Error sending OTP:", error);
+      toast.error("An error occurred while sending OTP.");
+    }
+  };
+
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    setLoading(true)
-    const response = await fetch('/api/user',{
-      method: 'POST',
+    if (!isEmailVerified) {
+      toast.error("Please verify your email first.");
+      return;
+    }
+
+    setLoading(true);
+
+    const response = await fetch("/api/user", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username: data.username,
         email: data.email,
         password: data.password,
         confirmPassword: data.confirmPassword,
-      })
-    })
-    
-    if(response.ok){
-        router.push('/auth/login')
-        toast.success("Registered Successfully")
-    } else{
-      const errorData = await response.json()
-      toast.error(errorData.message)
-      setLoading(false)
-    }
+      }),
+    });
 
+    if (response.ok) {
+      router.push("/auth/login");
+      toast.success("Registered Successfully");
+    } else {
+      const errorData = await response.json();
+      toast.error(errorData.message);
+      setLoading(false);
+    }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex">
       <Aside />
       <div className="gap-2 flex flex-col w-full items-center justify-center">
         <h1 className="text-4xl font-bold">Create Account</h1>
 
-        {/* Name Fields */}
-        <div className="xl:flex w-3/4 gap-2">
-          {/* <div className="flex flex-col w-full">
-            <label>First Name</label>
-            <input
-              {...register("firstName")}
-              maxLength={255}
-              type="text"
-              className="p-4 border border-[#DADADA] rounded-md"
-              placeholder="Enter your First Name"
-            />
-            {errors.firstName && <p className="text-red-500">{errors.firstName.message}</p>}
-          </div> */}
-
-          {/* <div className="flex flex-col w-full">
-            <label>Last Name</label>
-            <input
-              {...register("lastName")}
-              maxLength={255}
-              type="text"
-              className="p-4 border border-[#DADADA] rounded-md"
-              placeholder="Enter your Last Name"
-            />
-            {errors.lastName && <p className="text-red-500">{errors.lastName.message}</p>}
-          </div> */}
-        </div>
-
-        {/* Email Field */}
+        {/* Username */}
         <div className="flex flex-col w-3/4">
           <label>Username</label>
           <input
@@ -115,19 +128,39 @@ const RegisterForm = () => {
           />
           {errors.username && <p className="text-red-500">{errors.username.message}</p>}
         </div>
-        <div className="flex flex-col w-3/4">
+
+        {/* Email + Send Code */}
+        <div className="flex flex-col w-3/4 relative">
           <label>Email</label>
           <input
             {...register("email")}
+            onChange={(e) => setEmail(e.target.value)}
             maxLength={255}
             type="email"
             className="p-4 border border-[#DADADA] rounded-md"
             placeholder="Enter your Email"
           />
           {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          <button
+            onClick={handleSendOtp}  // Trigger the send OTP request
+            type="button"
+            className="absolute_button py-2 px-1 md:px-3 text-sm md:text-base text-white rounded-md cursor-pointer bg-[#EA454C] hover:bg-red-400"
+          >
+            Send Code
+          </button>
+          {isEmailVerified && (
+            <p className="text-green-600 text-sm mt-1">Email verified ✔</p>
+          )}
+          {openVerification && (
+            <SendCode
+              email={email}
+              closeVerification={setOpenVerification}
+              onVerified={() => setIsEmailVerified(true)}
+            />
+          )}
         </div>
 
-        {/* Password Fields */}
+        {/* Password */}
         <div className="flex flex-col gap-3 w-3/4">
           <div className="flex flex-col relative w-full">
             <label>Password</label>
@@ -154,11 +187,13 @@ const RegisterForm = () => {
               />
               <TogglePassword setValue={setIsVisible} value={isVisible} />
             </div>
-            {errors.confirmPassword && <p className="text-red-500">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && (
+              <p className="text-red-500">{errors.confirmPassword.message}</p>
+            )}
           </div>
         </div>
 
-        {/* Terms and Conditions */}
+        {/* Terms */}
         <div className="flex w-3/4 gap-2">
           <input type="checkbox" id="checkbox" className="cursor-pointer" />
           <label htmlFor="checkbox" className="cursor-pointer">
@@ -169,14 +204,13 @@ const RegisterForm = () => {
           </label>
         </div>
 
-        {/* Submit Button */}
+        {/* Submit */}
         <div className="flex flex-col w-full items-center gap-4">
           <button
             type="submit"
             className="flex p-4 border w-3/4 rounded-md bg-[#EA454C] hover:bg-red-400 text-white cursor-pointer justify-center"
           >
-            {loading ? "Registering.." : "Register"}
-            
+            {loading ? "Registering..." : "Register"}
           </button>
           <p>
             Already have an account?{" "}

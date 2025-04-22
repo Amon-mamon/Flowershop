@@ -47,3 +47,8 @@ input[type=password]::-ms-clear
     display: none;
 }
 
+.absolute_button {
+  position: absolute;
+  top: 41%;
+  right: 2%;
+}

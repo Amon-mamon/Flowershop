@@ -50,14 +50,14 @@ export const authOptions: NextAuthOptions = {
       ],
     callbacks:{
         async jwt({ token, user} : JWTCallbackParams){
-            if(user){
+            if(user){ 
                   token.username = user.username
             }
             return token;
         },
         async session ({session,token} : SessionCallbackParams){
             if (session.user) {
-                session.user.username = token.username as string; // Add username to session
+                session.user.username = token.username as string; 
             }
             return session;
             }

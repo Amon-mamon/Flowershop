@@ -64,7 +64,7 @@ export async function POST (req: Request) {
                 password: hashPassword,
             }
         })
-        const { password: newUserPassword } =newUser;
+        const { password: newUserPassword } = newUser;
             return NextResponse .json({user:newUserPassword, message: "created successfully"}, {status: 201})
     }catch(error) {
         console.error("Error:", error); 
