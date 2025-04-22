@@ -1,24 +1,13 @@
 import { NextResponse } from 'next/server';
-import { sendVerificationEmail } from '../../../../../lib/mailer'; // Adjust the import based on your file structure
+import { handleSendOtp } from '../../../../../lib/controllers/otpcontroller/otpController';
+import { handleApiError } from '../../../../../lib/utils/error/errorHandler';
 
 export async function POST(req: Request) {
   try {
-    const { email } = await req.json(); // Parse the email from the request body
-
-    // Generate OTP (you can add more logic here for better OTP generation)
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Send the OTP via email
-    await sendVerificationEmail(email, otp);
-
-    // Return a success response
-    return NextResponse.json({
-      message: 'OTP sent successfully to your email!',
-    });
+    const { email } = await req.json();
+    const response = await handleSendOtp(email);
+    return NextResponse.json(response);
   } catch (error) {
-    console.error('Error sending OTP:', error);
-    return NextResponse.json({
-      message: 'Failed to send OTP. Please try again.',
-    }, { status: 500 });
+    return handleApiError(error, 'Failed to send OTP');
   }
 }
