@@ -135,6 +135,7 @@ const RegisterForm = () => {
           <input
             {...register("email")}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={isEmailVerified}
             maxLength={255}
             type="email"
             className="p-4 border border-[#DADADA] rounded-md"
@@ -143,14 +144,13 @@ const RegisterForm = () => {
           {errors.email && <p className="text-red-500">{errors.email.message}</p>}
           <button
             onClick={handleSendOtp}  // Trigger the send OTP request
+            disabled={isEmailVerified}
             type="button"
             className="absolute_button py-2 px-1 md:px-3 text-sm md:text-base text-white rounded-md cursor-pointer bg-[#EA454C] hover:bg-red-400"
           >
-            Send Code
+            {isEmailVerified ? "Verified" : "SendCode"}
           </button>
-          {isEmailVerified && (
-            <p className="text-green-600 text-sm mt-1">Email verified ✔</p>
-          )}
+          
           {openVerification && (
             <SendCode
               email={email}

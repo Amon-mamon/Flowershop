@@ -48,7 +48,7 @@ const NavBar =  () => {
     return () => window.removeEventListener("resize", handleResize);
 }, []);
   return (
-    <nav className={`w-full sticky top-0 left-0 z-20  ${scrolling ? "bg-[#EA454C]/100" : "bg-[#EA454C]/20"} transition-all`}>
+    <nav className={`w-full sticky top-0 left-0 z-20  ${scrolling ? "bg-[#EA454C]/100" : "bg-black/100"} transition-all`}>
        <div className='w-full flex justify-between py-3 px-4 md:px-8 items-center relative'>
             <div className='flex items-center gap-1 cursor-pointer'>
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
