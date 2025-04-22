@@ -26,7 +26,7 @@ const Footer = () => {
         },
     ]
   return (
-    <div className='flex flex-col px-4 gap-12'>
+    <div className=' flex flex-col px-4 gap-12'>
         <div className='lg:flex justify-between px-8 border-b border-red-400'>
             <div className='mb-12 lg:mb-2'>
                 <h2 className='cormorant font-bold text-3xl'>Flower Shop</h2>

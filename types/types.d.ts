@@ -9,3 +9,11 @@ declare interface SessionCallbackParams {
     session: Session;
     token: JWT;
 }
+
+// data
+interface FlowerItems {
+    id: string; 
+    image: StaticImageData;
+    title: string;
+    price: string;
+}

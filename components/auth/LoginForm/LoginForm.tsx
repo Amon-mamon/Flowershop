@@ -1,10 +1,10 @@
 "use client"
 import React from 'react'
 import Link from 'next/link'
-import Aside from '@/components/reusable/aside';
+import Aside from '@/components/reusable/sidecontent/aside';
 import { useState } from "react"
 import { z } from "zod";
-import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';   
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
