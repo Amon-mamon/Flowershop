@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { handleSendOtp } from '../../../../lib/controllers/otpcontroller/otpController';
-import { handleApiError } from '../../../../lib/utils/error/errorHandler';
+import { apiRes } from '../../../../lib/utils/error/errorHandler';
 
 export async function POST(req: Request) {
   try {
@@ -8,6 +8,6 @@ export async function POST(req: Request) {
     const response = await handleSendOtp(email);
     return NextResponse.json(response);
   } catch (error) {
-    return handleApiError(error, 'Failed to send OTP');
+    return apiRes(error, 'Failed to send OTP');
   }
 }

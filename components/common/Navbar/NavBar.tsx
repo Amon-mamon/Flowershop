@@ -50,24 +50,28 @@ const NavBar =  () => {
   return (
     <nav className={`w-full sticky top-0 left-0 z-20  ${scrolling ? "bg-[#EA454C]/100" : "bg-black/100"} transition-all`}>
        <div className='w-full flex justify-between py-3 px-4 md:px-8 items-center relative'>
-            <div className='flex items-center gap-1 cursor-pointer'>
+            <div className='w-full flex items-center gap-1 cursor-pointer'>
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
                     <h1 className={`${scrolling ? "text-white text-3xl lg:text-5xl font-bold cormorant": " cormorant font-bold text-3xl lg:text-5xl text-red-400"} `}>JVB</h1>
             </div>
-            <ul className={`w-full justify-end gap-6 lg:gap-10  ${!toggleMenu ? "hidden md:flex" :"absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
-                    <ul className=''>
-                        <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex gap-12` }>
-                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Home</Link>
-                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>About</Link>
-                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Shop</Link>
-                            <Link href={""} className={`${scrolling ? "text-white" : "text-red-400"}`}>Contact</Link>
-                        </li>
-                    </ul>
+            <ul className={`w-full h-full text-center ${!toggleMenu ? "hidden md:flex " : "absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
+                    <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex  gap-12` }>
+                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Home</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>About</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Shop</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Contact</Link>
+                    </li>
                 {session && toggleMenu ?  (
                     <button onClick={() => signOut()} className='text-white  cursor-pointer'>
                         Logout
                     </button>
-                ) : (<Link href="/auth/login" className='block md:hidden text-white cursor-pointer transition-all rounded-md '>Sign in</Link>)}  
+                ) : (
+                     <div className=' md:hidden flex flex-col'>
+                         <Link href="/auth/register" className=' text-white cursor-pointer transition-all rounded-md '>Sign up</Link>
+                         <Link href="/auth/login" className=' text-white cursor-pointer transition-all rounded-md '>Sign in</Link>
+                     </div>
+                    
+                )}  
             </ul>
             {/* session if logged in, navbar will have icon for logout */}
             <div className='flex items-center gap-2 justify-end w-3/4'>
@@ -81,7 +85,7 @@ const NavBar =  () => {
                             <div
                                 onClick={() => setIsOpen(!isOpen)} className='flex items-center gap-2
                                   cursor-pointer'>
-                                    <span className={`hidden md:block font-semibold text-white`}>{session.user?.username|| "not"}</  span>
+                                    <span className={`hidden md:block font-semibold text-white`}>{session.user?.username|| ""}</  span>
                                     {isOpen && (
                                         <button onClick={() => signOut()} className=' w-26 hover:bg-gray-400 hover:text-white top-14 bg-white cursor-pointer absolute right-6  px-3 py-1 rounded-md'>
                                             Logout
@@ -91,14 +95,14 @@ const NavBar =  () => {
                         </div>
                     </div>
                 ) : <div className='gap-1 hidden md:flex'>
-                        <Link href="/auth/login" className='text-[#EA454C] hover:text-white hover:bg-red-400 transition-all   bg-white py-2 rounded-md px-3'>Sign in</Link>
-                        <Link href="/auth/register" className='hover:text-[#EA454C] hover:bg-white text-white bg-red-400 transition-all    py-2 rounded-md px-3'>Sign up</Link>
+                        <Link href="/auth/login" className='text-[#EA454C] hover:text-white hover:bg-red-400 transition-all   bg-white py-2 rounded-md px-2 lg:px-3 text-sm lg:text-base btn-scale active:bg-red-500'>Sign in</Link>
+                        <Link href="/auth/register" className='hover:text-[#EA454C] hover:bg-white text-white bg-red-400 transition-all    py-2 rounded-md px-2 lg:px-3 text-sm lg:text-base btn-scale active:bg-white'>Sign up</Link>
                     </div>
                 )}
             </div>
             <button 
             onClick={()=> settoggleMenu(!toggleMenu)}
-            className='cursor-pointer block md:hidden'>    
+            className='cursor-pointer block lg:hidden'>    
             {toggleMenu ? (
                 <IoCloseSharp className={`${scrolling ? "text-white text-3xl": "text-3xl block md:hidden text-red-400"} `} />
             ) : (
