@@ -16,6 +16,11 @@ const NavBar =  () => {
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
+    // colors
+    const navTextColor = scrolling ? "text-white" : "text-red-400"
+    const iconColor = scrolling ? "text-white" : "text-red-400";
+    const navBg = scrolling ? "bg-[#EA454C]" : "bg-black";
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -48,7 +53,7 @@ const NavBar =  () => {
     return () => window.removeEventListener("resize", handleResize);
 }, []);
   return (
-    <nav className={`w-full sticky top-0 left-0 z-20  ${scrolling ? "bg-[#EA454C]/100" : "bg-black/100"} transition-all`}>
+    <nav className={`w-full sticky top-0 left-0 z-20  ${navBg} transition-all`}>
        <div className='w-full flex justify-between py-3 px-4 md:px-8 items-center relative'>
             <div className='w-full flex items-center gap-1 cursor-pointer'>
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
@@ -56,19 +61,19 @@ const NavBar =  () => {
             </div>
             <ul className={`w-full h-full text-center ${!toggleMenu ? "hidden md:flex " : "absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
                     <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex  gap-12` }>
-                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Home</Link>
-                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>About</Link>
-                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Shop</Link>
-                        <Link href={""} className={` text-sm lg:text-lg ${scrolling ? "text-white" : "text-red-400"}`}>Contact</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Home</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>About</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Shop</Link>
+                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Contact</Link>
                     </li>
                 {session && toggleMenu ?  (
                     <button onClick={() => signOut()} className='text-white  cursor-pointer'>
                         Logout
                     </button>
                 ) : (
-                     <div className=' md:hidden flex flex-col'>
-                         <Link href="/auth/register" className=' text-white cursor-pointer transition-all rounded-md '>Sign up</Link>
-                         <Link href="/auth/login" className=' text-white cursor-pointer transition-all rounded-md '>Sign in</Link>
+                     <div className=' md:hidden'>
+                         <Link href="/auth/register" className={`${navTextColor} cursor-pointer transition-all rounded-md `}>Sign up</Link>
+                         <Link href="/auth/login" className={`${navTextColor} cursor-pointer transition-all rounded-md `}>Sign in</Link>
                      </div>
                     
                 )}  
@@ -104,7 +109,7 @@ const NavBar =  () => {
             onClick={()=> settoggleMenu(!toggleMenu)}
             className='cursor-pointer block lg:hidden'>    
             {toggleMenu ? (
-                <IoCloseSharp className={`${scrolling ? "text-white text-3xl": "text-3xl block md:hidden text-red-400"} `} />
+                <IoCloseSharp className={`text-3xl block md:hidden ${iconColor} `} />
             ) : (
                     <RxHamburgerMenu className={`${scrolling ? "text-white text-3xl": "text-3xl block md:hidden text-red-400"} `} />
                 )

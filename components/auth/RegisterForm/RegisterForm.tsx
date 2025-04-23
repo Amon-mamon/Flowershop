@@ -9,23 +9,8 @@ import TogglePassword from "@/components/reusable/togglepassword/TogglePassword"
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import SendCode from "./modal/SendCode";
+import { registerSchema, RegisterSchemaType } from "@/lib/validators/schema";
 
-const schema = z
-  .object({
-    username: z.string().min(1, "Username is required").max(100),
-    email: z.string().email("Invalid email format."),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters.")
-      .regex(/[A-Z]/, "Password must contain at least one uppercase letter.")
-      .regex(/\d/, "Password must contain at least one number.")
-      .regex(/[\W_]/, "Password must contain at least one special character."),
-    confirmPassword: z.string().min(8, "Password confirmation is required"),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -35,19 +20,15 @@ const RegisterForm = () => {
   const [email, setEmail] = React.useState<string>("");
   const [isEmailVerified, setIsEmailVerified] = React.useState<boolean>(false);
   const [isChecked, setIsChecked] = React.useState<boolean>(false)
+  const [isRegistering, setIsRegistering] = React.useState<boolean>(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
+    reset,
+  } = useForm<RegisterSchemaType>({
+    resolver: zodResolver(registerSchema),
   });
 
   // Function to handle OTP sending request
@@ -58,6 +39,7 @@ const RegisterForm = () => {
     }
 
     try {
+      setLoading(true)
       const response = await fetch("/api/auth/sendotp", {
         method: "POST",
         headers: {
@@ -65,9 +47,8 @@ const RegisterForm = () => {
         },
         body: JSON.stringify({ email }),
       });
-
       const result = await response.json();
-
+      
       if (response.ok) {
         toast.success(result.message || "OTP sent to email.");
         setOpenVerification(true); // Open the modal after OTP is sent
@@ -77,40 +58,46 @@ const RegisterForm = () => {
     } catch (error) {
       console.error("Error sending OTP:", error);
       toast.error("An error occurred while sending OTP.");
+    } finally{
+        setLoading(false) 
     }
   };
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     if (!isEmailVerified) {
       toast.error("Please verify your email first.");
       return;
     }
 
-    setLoading(true);
-
-    const response = await fetch("/api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: data.username,
-        email: data.email,
-        password: data.password,
-        confirmPassword: data.confirmPassword,
-      }),
-    });
-
-    if (response.ok) {
-      router.push("/auth/login");
-      toast.success("Registered Successfully");
-    } else {
-      const errorData = await response.json();
-      toast.error(errorData.message);
-      setLoading(false);
+    try {
+      setIsRegistering(true)
+      const response = await fetch("/api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          email: data.email,
+          password: data.password,
+          confirmPassword: data.confirmPassword,
+        }),
+      });
+  
+      if (response.ok) {
+        router.push("/auth/login");
+        toast.success("Registered Successfully");
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.message);
+        setLoading(false);
+      } reset()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsRegistering(false)
     }
   };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex">
       <Aside />
@@ -122,6 +109,7 @@ const RegisterForm = () => {
           <label>Username</label>
           <input
             {...register("username")}
+            disabled={isEmailVerified}
             maxLength={255}
             type="text"
             className="p-4 border border-[#DADADA] rounded-md"
@@ -149,7 +137,8 @@ const RegisterForm = () => {
             type="button"
             className="disabled:cursor-not-allowed disabled:bg-red-300 absolute_button py-2 px-1 md:px-3 text-sm md:text-base text-white rounded-md cursor-pointer bg-[#EA454C] hover:bg-red-400"
           >
-            {isEmailVerified ? "Verified" : "SendCode"}
+            {loading ? "Sending.." : (isEmailVerified ? "Verified" : "Send Code")}
+            
           </button>
           
           {openVerification && (
@@ -169,6 +158,7 @@ const RegisterForm = () => {
             <label>Password</label>
             <div className="flex justify-end items-center">
               <input
+              disabled={isEmailVerified}
                 {...register("password")}
                 type={isVisible ? "text" : "password"}
                 className="p-4 border border-[#DADADA] rounded-md w-full"
@@ -217,7 +207,8 @@ const RegisterForm = () => {
               type="submit"
               className="flex p-4 border w-3/4 rounded-md bg-[#EA454C] disabled:cursor-not-allowed disabled:bg-red-200 hover:bg-red-400 text-white cursor-pointer justify-center"
             >
-              {loading ? "Registering..." : "Register"}
+              {isRegistering  ? "Registering..." : "Register"}
+
             </button>
           <p>
             Already have an account?{" "}

@@ -92,6 +92,9 @@ const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
               id={`otp-${index}`}
               type="text"
               inputMode="numeric"
+              autoComplete="one-time-code"
+              autoCorrect="off"
+              spellCheck={false}
               className={` border text-center w-12 md:w-16 h-12 md:h-16 rounded-md ${errorMessage ? "border-red-500": "border"}`}
               maxLength={1}
               value={value}
