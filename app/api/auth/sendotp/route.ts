@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { handleSendOtp } from '../../../../../lib/controllers/otpcontroller/otpController';
-import { handleApiError } from '../../../../../lib/utils/error/errorHandler';
+import { handleSendOtp } from '../../../../lib/controllers/otpcontroller/otpController';
+import { handleApiError } from '../../../../lib/utils/error/errorHandler';
 
 export async function POST(req: Request) {
   try {

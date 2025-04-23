@@ -1,7 +1,7 @@
 "use client";
 import Aside from "../../reusable/sidecontent/aside";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,11 +29,12 @@ const schema = z
 
 const RegisterForm = () => {
   const router = useRouter();
-  const [isVisible, setIsVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [openVerification, setOpenVerification] = useState(false);
-  const [email, setEmail] = useState("");
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isVisible, setIsVisible] = React.useState<boolean>(false);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [openVerification, setOpenVerification] = React.useState<boolean>(false);
+  const [email, setEmail] = React.useState<string>("");
+  const [isEmailVerified, setIsEmailVerified] = React.useState<boolean>(false);
+  const [isChecked, setIsChecked] = React.useState<boolean>(false)
 
   const {
     register,
@@ -113,7 +114,7 @@ const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex">
       <Aside />
-      <div className="gap-2 flex flex-col w-full items-center justify-center">
+      <div className="gap-2 flex flex-col w-full items-center justify-center  ">
         <h1 className="text-4xl font-bold">Create Account</h1>
 
         {/* Username */}
@@ -141,12 +142,12 @@ const RegisterForm = () => {
             className="p-4 border border-[#DADADA] rounded-md"
             placeholder="Enter your Email"
           />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          
           <button
             onClick={handleSendOtp}  // Trigger the send OTP request
             disabled={isEmailVerified}
             type="button"
-            className="absolute_button py-2 px-1 md:px-3 text-sm md:text-base text-white rounded-md cursor-pointer bg-[#EA454C] hover:bg-red-400"
+            className="disabled:cursor-not-allowed disabled:bg-red-300 absolute_button py-2 px-1 md:px-3 text-sm md:text-base text-white rounded-md cursor-pointer bg-[#EA454C] hover:bg-red-400"
           >
             {isEmailVerified ? "Verified" : "SendCode"}
           </button>
@@ -156,9 +157,11 @@ const RegisterForm = () => {
               email={email}
               closeVerification={setOpenVerification}
               onVerified={() => setIsEmailVerified(true)}
-            />
+            
+            />  
           )}
         </div>
+          {errors.email && <p className="text-red-500 w-3/4">{errors.email.message}</p>}
 
         {/* Password */}
         <div className="flex flex-col gap-3 w-3/4">
@@ -195,7 +198,10 @@ const RegisterForm = () => {
 
         {/* Terms */}
         <div className="flex w-3/4 gap-2">
-          <input type="checkbox" id="checkbox" className="cursor-pointer" />
+          <input 
+          checked={isChecked}
+          onChange={(e) => setIsChecked(e.target.checked)}
+          type="checkbox" id="checkbox" className="cursor-pointer" />
           <label htmlFor="checkbox" className="cursor-pointer">
             By continuing, you agree to our{" "}
             <Link href="" className="text-blue-700">
@@ -206,12 +212,13 @@ const RegisterForm = () => {
 
         {/* Submit */}
         <div className="flex flex-col w-full items-center gap-4">
-          <button
-            type="submit"
-            className="flex p-4 border w-3/4 rounded-md bg-[#EA454C] hover:bg-red-400 text-white cursor-pointer justify-center"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
+            <button
+              disabled={!isChecked}
+              type="submit"
+              className="flex p-4 border w-3/4 rounded-md bg-[#EA454C] disabled:cursor-not-allowed disabled:bg-red-200 hover:bg-red-400 text-white cursor-pointer justify-center"
+            >
+              {loading ? "Registering..." : "Register"}
+            </button>
           <p>
             Already have an account?{" "}
             <Link href="/auth/login/" className="text-blue-800">

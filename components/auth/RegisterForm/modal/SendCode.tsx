@@ -1,6 +1,6 @@
 "use client";
 import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
+import React from 'react'
 import { toast } from "react-toastify";
 
 interface SendCodeProps {
@@ -10,9 +10,9 @@ interface SendCodeProps {
 }
 
 const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
-  const [otpInput, setOtpInput] = useState<string[]>(new Array(6).fill(""));
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [otpInput, setOtpInput] = React.useState<string[]>(new Array(6).fill(""));
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
@@ -42,7 +42,7 @@ const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
       setLoading(true);
       setErrorMessage(null);
 
-      const response = await fetch("/api/verifyotp", {
+      const response = await fetch("/api/auth/verifyotp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
