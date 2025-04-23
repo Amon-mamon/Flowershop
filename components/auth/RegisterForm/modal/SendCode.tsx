@@ -2,12 +2,7 @@
 import { IoMdClose } from "react-icons/io";
 import React from 'react'
 import { toast } from "react-toastify";
-
-interface SendCodeProps {
-  email: string;
-  closeVerification: (value: boolean) => void;
-  onVerified: () => void;
-}
+import { SendCodeProps } from "@/types/types";
 
 const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
   const [otpInput, setOtpInput] = React.useState<string[]>(new Array(6).fill(""));
