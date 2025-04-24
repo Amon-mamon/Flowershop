@@ -1,4 +1,4 @@
-import { sendVerificationEmail } from "../../mailer";
+import { sendVerificationEmail } from "../../utils/mailer/mailer";
 import { deleteOldOtps, saveOtp, getOtpRecord } from "../../models/userverificationmodel/userVerificationModel";
 
 const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
