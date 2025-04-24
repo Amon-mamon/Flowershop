@@ -52,3 +52,11 @@ input[type=password]::-ms-clear
   top: 41%;
   right: 2%;
 }
+
+.btn-scale {
+  transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.btn-scale:active {
+  transform: scale(.95);
+}

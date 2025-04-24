@@ -4,12 +4,9 @@ import { PiFlowerTulipBold } from "react-icons/pi";
 import { GiRose } from "react-icons/gi";
 import { FaHandsHelping } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
+import { Highlights } from "@/types/types";
 
-interface Highlights {
-  icon:React.ReactNode;
-  title:string;
-  description:string;
-}
+
 const Services = () => {
 
   const services:Highlights[] = [

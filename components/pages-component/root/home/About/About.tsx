@@ -20,8 +20,8 @@ const About = () => {
                     <h3 className='font-bold text-2xl lg:text-5xl cormorant mb-7'>Blossoming Your Special Moments with Nature&apos;s Finest</h3>
                     <p className='text-gray-600'>Welcome to Florist, where floral artistry meets passion for nature&apos;s beauty. Our story is rooted in a deep love for flowers and a commitment to creating unforgettable moments for our customers.</p>
                 </div>
-                <div className='mb-6'>
-                    <Link href={""} className='text-xs md:text-sm uppercase bg-red-500 py-3 md:py-5 px-6 md:px-8 rounded-xl text-white hover:bg-red-400 '>
+                <div className='mb-6 btn-scale'>
+                    <Link href={""} className=' text-xs md:text-sm uppercase bg-red-500 py-3 md:py-5 px-6 md:px-8 rounded-xl text-white hover:bg-red-400 '>
                             read more
                     </Link>
                 </div>

@@ -1,18 +1,13 @@
 "use client";
 import { IoMdClose } from "react-icons/io";
-import { useState } from "react";
+import React from 'react'
 import { toast } from "react-toastify";
-
-interface SendCodeProps {
-  email: string;
-  closeVerification: (value: boolean) => void;
-  onVerified: () => void;
-}
+import { SendCodeProps } from "@/types/types";
 
 const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
-  const [otpInput, setOtpInput] = useState<string[]>(new Array(6).fill(""));
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [otpInput, setOtpInput] = React.useState<string[]>(new Array(6).fill(""));
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
   const handleOtpChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
@@ -42,7 +37,7 @@ const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
       setLoading(true);
       setErrorMessage(null);
 
-      const response = await fetch("/api/verifyotp", {
+      const response = await fetch("/api/auth/verifyotp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +87,10 @@ const SendCode = ({ email, closeVerification, onVerified }: SendCodeProps) => {
               id={`otp-${index}`}
               type="text"
               inputMode="numeric"
-              className="text-center border w-12 md:w-16 h-12 md:h-16 rounded-md"
+              autoComplete="one-time-code"
+              autoCorrect="off"
+              spellCheck={false}
+              className={` border text-center w-12 md:w-16 h-12 md:h-16 rounded-md ${errorMessage ? "border-red-500": "border"}`}
               maxLength={1}
               value={value}
               onChange={(e) => handleOtpChange(e, index)}

@@ -17,3 +17,17 @@ interface FlowerItems {
     title: string;
     price: string;
 }
+
+// Modal send code
+interface SendCodeProps {
+  email: string;
+  closeVerification: (value: boolean) => void;
+  onVerified: () => void;
+}
+
+//hero service
+interface Highlights {
+    icon:React.ReactNode;
+    title:string;
+    description:string;
+  }

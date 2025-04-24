@@ -89,7 +89,7 @@ const LoginForm = () => {
                 </div>
             </div>
             <div className='flex flex-col justify-center items-center w-full gap-2'>
-                <button type='submit' className=' bg-[#EA454C] w-full text-center py-3 text-white rounded-xl cursor-pointer'>{loading  ? "Signing in..." :"Sign in"}</button>
+                <button type='submit' className='hover:bg-red-400 bg-[#EA454C] w-full text-center py-3 text-white rounded-xl cursor-pointer'>{loading  ? "Signing in..." :"Sign in"}</button>
                 <button className='flex w-full py-3 rounded-xl justify-center items-center border border-gray-400 gap-2 cursor-pointer'>
                         <icons.FcGoogle/>
                         <Link href ="" className=''>Sign in with Google</Link>
