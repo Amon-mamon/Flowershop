@@ -61,9 +61,9 @@ const NavBar =  () => {
             </div>
             <ul className={`w-full h-full text-center ${!toggleMenu ? "hidden md:flex " : "absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
                     <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex  gap-12` }>
-                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Home</Link>
-                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>About</Link>
-                        <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Shop</Link>
+                        <Link href={"/"} className={` text-sm lg:text-lg ${navTextColor}`}>Home</Link>
+                        <Link href={"about"} className={` text-sm lg:text-lg ${navTextColor}`}>About</Link>
+                        <Link href={"shop"} className={` text-sm lg:text-lg ${navTextColor}`}>Shop</Link>
                         <Link href={""} className={` text-sm lg:text-lg ${navTextColor}`}>Contact</Link>
                     </li>
                 {session && toggleMenu ?  (

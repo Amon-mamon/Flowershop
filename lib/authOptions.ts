@@ -6,8 +6,6 @@ import { compare } from "bcrypt"
 import { JWTCallbackParams, SessionCallbackParams } from "@/types/types";
 
 
-
-
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
     secret: process.env.NEXTAUTH_SECRET,
