@@ -8,6 +8,7 @@ export async function POST(req: Request) {
     const response = await handleSendOtp(email);
     return NextResponse.json(response);
   } catch (error) {
+    console.log(error)
     return apiRes(error, 'Failed to send OTP');
   }
 }
