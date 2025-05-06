@@ -17,8 +17,8 @@ const NavBar =  () => {
     const dropdownRef = useRef<HTMLDivElement | null>(null);
 
     // colors
-    const navTextColor = scrolling ? "text-white" : "text-red-400"
-    const iconColor = scrolling ? "text-white" : "text-red-400";
+    const navTextColor = scrolling ? "text-white" : "text-gray-200"
+    const iconColor = scrolling ? "text-white" : "text-gray-200";
     const navBg = scrolling ? "bg-[#EA454C]" : "bg-black";
 
     useEffect(() => {
@@ -59,8 +59,8 @@ const NavBar =  () => {
                     <GiFlowers className={`${scrolling ? "text-white text-3xl lg:text-5xl": "text-3xl lg:text-5xl  text-red-400"} `} />
                     <h1 className={`${scrolling ? "text-white text-3xl lg:text-5xl font-bold cormorant": " cormorant font-bold text-3xl lg:text-5xl text-red-400"} `}>JVB</h1>
             </div>
-            <ul className={`w-full h-full text-center ${!toggleMenu ? "hidden md:flex " : "absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
-                    <li className={` cursor-pointer text-white text-md lg:text-lg capitalize flex  gap-12` }>
+            <ul className={`w-full h-full text-center md:flex ${!toggleMenu ? "hidden md:flex " : "absolute top-15 w-full bg-[#EA454C] border-t-1 border-white right-0 px-2 "}`}>
+                    <li className={`w-full md:flex cursor-pointer text-white text-md lg:text-lg capitalize gap-12` }>
                         <Link href={"/"} className={` text-sm lg:text-lg ${navTextColor}`}>Home</Link>
                         <Link href={"about"} className={` text-sm lg:text-lg ${navTextColor}`}>About</Link>
                         <Link href={"shop"} className={` text-sm lg:text-lg ${navTextColor}`}>Shop</Link>
