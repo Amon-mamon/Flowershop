@@ -51,12 +51,12 @@ const RegisterForm = () => {
       
       if (response.ok) {
         toast.success(result.message || "OTP sent to email.");
-        setOpenVerification(true); // Open the modal after OTP is sentS
+        setOpenVerification(true); 
       } else {
         toast.error(result.message || "Failed to send OTP.");
       }
     } catch (error) {
-      console.error("Error sending OTP:", error);
+      console.error("Thid is the error", error);
       toast.error("An error occurred while sending OTP.");
     } finally{
         setLoading(false) 
